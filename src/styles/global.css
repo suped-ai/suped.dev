@@ -69,10 +69,10 @@ a:hover { text-decoration: underline; text-underline-offset: 0.2em; text-decorat
   display: flex;
   align-items: center;
   border-bottom: 1px solid var(--line);
-  background: rgba(5, 5, 5, 0.8);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  /* transparent on purpose: the wave bleeds through the header */
+  background: transparent;
 }
+.site-header a { text-shadow: 0 0 10px rgba(5, 5, 5, 0.95), 0 0 2px rgba(5, 5, 5, 1); }
 .site-header .inner {
   width: 100%;
   max-width: 82rem;
@@ -104,9 +104,9 @@ a:hover { text-decoration: underline; text-underline-offset: 0.2em; text-decorat
   font-size: 0.75rem;
   letter-spacing: 0.08em;
   color: var(--dim);
-  background: rgba(5, 5, 5, 0.8);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  /* transparent on purpose: the wave bleeds through the footer */
+  background: transparent;
+  text-shadow: 0 0 10px rgba(5, 5, 5, 0.95), 0 0 2px rgba(5, 5, 5, 1);
 }
 .site-footer .inner {
   max-width: 82rem;
