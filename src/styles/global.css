@@ -251,8 +251,11 @@ a:hover { text-decoration: underline; text-underline-offset: 0.2em; text-decorat
   font-size: 0.85em;
 }
 
+.section .body { min-width: 0; }
+
 @media (max-width: 760px) {
-  .section { grid-template-columns: 1fr; gap: 1rem; padding: 1.8rem 1.4rem; }
+  /* minmax(0, 1fr), not 1fr: a bare 1fr can't shrink below the widest <pre> line */
+  .section { grid-template-columns: minmax(0, 1fr); gap: 1rem; padding: 1.8rem 1.4rem; }
   .sections { padding: 0 1rem 3rem; }
 }
 
@@ -349,7 +352,7 @@ a:hover { text-decoration: underline; text-underline-offset: 0.2em; text-decorat
   .docs-toc { display: none; }
 }
 @media (max-width: 800px) {
-  .docs { grid-template-columns: 1fr; padding: 1rem 1rem 3rem; gap: 1rem; }
+  .docs { grid-template-columns: minmax(0, 1fr); padding: 1rem 1rem 3rem; gap: 1rem; }
   .docs-nav { position: static; max-height: none; padding: 0.9rem 1.1rem; }
   .docs-nav summary {
     display: block;
@@ -444,6 +447,7 @@ a:hover { text-decoration: underline; text-underline-offset: 0.2em; text-decorat
 }
 .prose th { color: var(--dim); font-weight: 500; letter-spacing: 0.08em; font-size: 0.72rem; text-transform: uppercase; }
 @media (min-width: 900px) { .prose td code { white-space: nowrap; } }
+@media (max-width: 480px) { .prose table { display: block; overflow-x: auto; } }
 
 @media (prefers-reduced-motion: reduce) {
   .install .cursor { animation: none; }
