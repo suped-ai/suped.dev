@@ -15,10 +15,10 @@
   --fg-strong: #e6e8ee;
   --accent: #9fb0ff;
   --accent-dim: rgba(159, 176, 255, 0.35);
-  --panel-bg: rgba(5, 5, 5, 0.72);
+  --panel-bg: rgba(5, 5, 5, 0.58);
   --panel-line: rgba(138, 143, 156, 0.18);
   --panel-line-hover: rgba(138, 143, 156, 0.32);
-  --panel-blur: 8px;
+  --panel-blur: 6px;
   --mono: ui-monospace, "JetBrains Mono", "Cascadia Code", Consolas, "SF Mono", Menlo, monospace;
   --measure: 68ch;
   --header-h: 3.25rem;
@@ -68,8 +68,7 @@ a:hover { text-decoration: underline; text-underline-offset: 0.2em; text-decorat
   height: var(--header-h);
   display: flex;
   align-items: center;
-  border-bottom: 1px solid var(--line);
-  /* transparent on purpose: the wave bleeds through the header */
+  /* transparent and borderless on purpose: the wave bleeds through the header */
   background: transparent;
 }
 .site-header a { text-shadow: 0 0 10px rgba(5, 5, 5, 0.95), 0 0 2px rgba(5, 5, 5, 1); }
@@ -99,7 +98,6 @@ a:hover { text-decoration: underline; text-underline-offset: 0.2em; text-decorat
 .site-footer {
   position: relative;
   z-index: 1;
-  border-top: 1px solid var(--line);
   padding: 2rem 1.5rem 2.5rem;
   font-size: 0.75rem;
   letter-spacing: 0.08em;
