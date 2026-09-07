@@ -17,6 +17,14 @@ We do not need a `soul.md` to make software useful. We need a shell, files, prog
 
 suped will not confuse lore with capability.
 
+## Abstractions are for humans
+
+Every harness, orchestrator, canvas, persona, and memory system is an abstraction built for the agent. The agent doesn't need them. It needs a system it can work in and tools it can use.
+
+Humans are the ones who need abstractions. An agent reads and updates a calendar through an API. A human needs to see the calendar.
+
+suped puts the abstraction on the right side. Agents get a headless Linux computer. Humans get the layer on top of it.
+
 ## No personas. No harnesses. No skill packs.
 
 Every layer we put between a capable model and a real machine is a bet that the model can't be trusted with the machine. Personas to shape it, instruction files to constrain it, harnesses to hold it, skills to teach it the obvious. Each layer is a place for things to go wrong, and each one has to be maintained, explained, and carried to the next tool.
