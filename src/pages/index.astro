@@ -5,7 +5,6 @@ import Install from '../components/Install.astro';
 
 <Base>
   <section class="hero">
-    <div class="hero-bg" id="hero-bg" aria-hidden="true"></div>
     <div class="inner">
       <h1>Give the agent a computer.</h1>
       <p>
@@ -20,59 +19,60 @@ import Install from '../components/Install.astro';
     </div>
   </section>
 
-  <section class="section">
-    <h2>premise</h2>
-    <div class="body">
-      <p class="lead">AI is remarkably capable. We keep surrounding it with abstractions designed for weaker models.</p>
-      <p>
-        Personas, instruction files, harnesses, skill packs. Each one is a workaround
-        for a model that could not be trusted with a real environment. That model is gone.
-      </p>
-      <p>
-        suped begins with a simpler premise: give the agent a real computer, tell it
-        what you want, and get out of the way.
-      </p>
-    </div>
-  </section>
+  <div class="sections">
+    <section class="section panel">
+      <h2>premise</h2>
+      <div class="body">
+        <p class="lead">AI is remarkably capable. We keep surrounding it with abstractions designed for weaker models.</p>
+        <p>
+          Personas, instruction files, harnesses, skill packs. Each one is a workaround
+          for a model that could not be trusted with a real environment. That model is gone.
+        </p>
+        <p>
+          suped begins with a simpler premise: give the agent a real computer, tell it
+          what you want, and get out of the way.
+        </p>
+      </div>
+    </section>
 
-  <section class="section">
-    <h2>what you get</h2>
-    <div class="body prose">
-      <p>
-        One Linux box, yours, that keeps everything. Ubuntu with the tools an engineer
-        expects, a user with sudo, and a home directory that survives.
-      </p>
+    <section class="section panel">
+      <h2>what you get</h2>
+      <div class="body prose">
+        <p>
+          One Linux box, yours, that keeps everything. Ubuntu with the tools an engineer
+          expects, a user with sudo, and a home directory that survives.
+        </p>
 <pre><code>/home/suped/
   workspace/    where shells open
   projects/
   downloads/
   .config/</code></pre>
-      <p>
-        bash · python · node · git · curl · wget · jq · sqlite · ffmpeg · ripgrep ·
-        unzip · uv · Chromium via Playwright. Need more? Install it. It stays.
-      </p>
-      <p>
-        No special filesystem abstraction. No suped-specific anything inside the box.
-        Linux is Linux.
-      </p>
-    </div>
-  </section>
+        <p>
+          bash · python · node · git · curl · wget · jq · sqlite · ffmpeg · ripgrep ·
+          unzip · uv · Chromium via Playwright. Need more? Install it. It stays.
+        </p>
+        <p>
+          No special filesystem abstraction. No suped-specific anything inside the box.
+          Linux is Linux.
+        </p>
+      </div>
+    </section>
 
-  <section class="section">
-    <h2>how it works</h2>
-    <div class="body prose">
-      <ol class="steps">
-        <li><strong>Run the command.</strong> The first run builds a local image and creates a persistent home. Every run after that is instant.</li>
-        <li><strong>Work in it, or hand it over.</strong> Open a shell yourself, or point an agent at it with <code>suped exec</code>. Install tools, clone repos, log in to services.</li>
-        <li><strong>Come back to it.</strong> Swap agents, swap machines, swap models. The computer is still there with everything you set up.</li>
-      </ol>
-    </div>
-  </section>
+    <section class="section panel">
+      <h2>how it works</h2>
+      <div class="body prose">
+        <ol class="steps">
+          <li><strong>Run the command.</strong> The first run builds a local image and creates a persistent home. Every run after that is instant.</li>
+          <li><strong>Work in it, or hand it over.</strong> Open a shell yourself, or point an agent at it with <code>suped exec</code>. Install tools, clone repos, log in to services.</li>
+          <li><strong>Come back to it.</strong> Swap agents, swap machines, swap models. The computer is still there with everything you set up.</li>
+        </ol>
+      </div>
+    </section>
 
-  <section class="section">
-    <h2>the prompt</h2>
-    <div class="body prose">
-      <p>This is the entire system prompt. <code>suped prompt</code> prints it.</p>
+    <section class="section panel">
+      <h2>the prompt</h2>
+      <div class="body prose">
+        <p>This is the entire system prompt. <code>suped prompt</code> prints it.</p>
 <pre><code>You are operating a persistent Linux computer on behalf of the user.
 
 You have access to the shell, filesystem, installed applications,
@@ -84,24 +84,8 @@ use APIs and CLIs, and preserve useful work in the filesystem.
 
 Ask the user only when you need information, authentication, or
 approval for a consequential action.</code></pre>
-      <p>That is practically the whole philosophy. <a href="/docs/manifesto">Read the rest.</a></p>
-    </div>
-  </section>
+        <p>That is practically the whole philosophy. <a href="/docs/manifesto">Read the rest.</a></p>
+      </div>
+    </section>
+  </div>
 </Base>
-
-<script>
-  import { mountWave } from '../scripts/wave';
-  const el = document.querySelector<HTMLElement>('#hero-bg');
-  if (el && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    mountWave(el, {
-      speed: 2.1,
-      accentColor: '#9fb0ff',
-      fontSize: 20,
-      mouseInfluence: 0.4,
-      accentThreshold: 0.35,
-      boost: 1,
-      opacity: 0.45,
-      lightMode: false,
-    });
-  }
-</script>

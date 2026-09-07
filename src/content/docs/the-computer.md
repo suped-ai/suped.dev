@@ -1,7 +1,8 @@
 ---
 title: The computer
 description: A plain Linux box. Nothing in it is special.
-order: 2
+section: computer
+order: 1
 ---
 
 ## The image

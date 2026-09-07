@@ -1,7 +1,8 @@
 ---
 title: Agents
 description: Handing the computer to something other than you.
-order: 5
+section: agents
+order: 1
 ---
 
 suped doesn't ship an agent. It ships the computer. Any agent that can run a shell command can use it, and any agent you install inside it inherits everything that's already there.

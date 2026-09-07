@@ -1,9 +1,13 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import { SECTIONS } from '../../nav';
 
 export async function getStaticPaths() {
-  const docs = (await getCollection('docs')).sort((a, b) => a.data.order - b.data.order);
+  const all = await getCollection('docs');
+  const rank = (d: (typeof all)[number]) =>
+    SECTIONS.findIndex((s) => s.key === d.data.section) * 1000 + d.data.order;
+  const docs = all.sort((a, b) => rank(a) - rank(b));
   return docs.map((entry, i) => ({
     params: { slug: entry.id },
     props: { entry, prev: docs[i - 1] ?? null, next: docs[i + 1] ?? null, all: docs },
@@ -11,22 +15,37 @@ export async function getStaticPaths() {
 }
 
 const { entry, prev, next, all } = Astro.props;
-const { Content } = await render(entry);
+const { Content, headings } = await render(entry);
+
+const groups = SECTIONS.map((s) => ({
+  ...s,
+  docs: all.filter((d) => d.data.section === s.key),
+})).filter((g) => g.docs.length > 0);
+
+const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
 ---
 
 <Base title={entry.data.title} description={entry.data.description}>
   <div class="docs">
-    <nav class="docs-nav" aria-label="Docs">
-      <div class="label">docs</div>
-      <ol>
-        {all.map((d) => (
-          <li>
-            <a href={`/docs/${d.id}`} aria-current={d.id === entry.id ? 'page' : undefined}>{d.data.title}</a>
-          </li>
+    <nav class="docs-nav panel" aria-label="Docs">
+      <details open>
+        <summary>docs</summary>
+        {groups.map((g) => (
+          <div class="group">
+            <div class="group-title">{g.title}</div>
+            <ol>
+              {g.docs.map((d) => (
+                <li>
+                  <a href={`/docs/${d.id}`} aria-current={d.id === entry.id ? 'page' : undefined}>{d.data.title}</a>
+                </li>
+              ))}
+            </ol>
+          </div>
         ))}
-      </ol>
+      </details>
     </nav>
-    <article class="docs-main">
+
+    <article class="docs-main panel">
       <div class="prose">
         <h1>{entry.data.title}</h1>
         {entry.data.description && <p class="description">{entry.data.description}</p>}
@@ -37,5 +56,55 @@ const { Content } = await render(entry);
         {next && <a class="next" href={`/docs/${next.id}`}>{next.data.title} →</a>}
       </div>
     </article>
+
+    {toc.length > 0 && (
+      <aside class="docs-toc panel" aria-label="On this page">
+        <div class="label">on this page</div>
+        <ol>
+          {toc.map((h) => (
+            <li class={`depth-${h.depth}`}>
+              <a href={`#${h.slug}`} data-toc={h.slug}>{h.text}</a>
+            </li>
+          ))}
+        </ol>
+      </aside>
+    )}
   </div>
 </Base>
+
+<script>
+  // On small screens the sidebar is a collapsible <details>; start it closed.
+  const nav = document.querySelector<HTMLDetailsElement>('.docs-nav details');
+  if (nav && matchMedia('(max-width: 800px)').matches) nav.open = false;
+
+  // Highlight the table-of-contents entry for the heading currently in view.
+  const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('.docs-toc a[data-toc]'));
+  if (links.length) {
+    const byId = new Map(links.map((a) => [a.dataset.toc!, a]));
+    const headings = links
+      .map((a) => document.getElementById(a.dataset.toc!))
+      .filter((el): el is HTMLElement => el !== null);
+
+    let active: HTMLAnchorElement | null = null;
+    const setActive = (id: string) => {
+      const next = byId.get(id) ?? null;
+      if (next === active) return;
+      active?.classList.remove('active');
+      next?.classList.add('active');
+      active = next;
+    };
+
+    const update = () => {
+      const line = window.innerHeight * 0.25;
+      let current = headings[0];
+      for (const h of headings) {
+        if (h.getBoundingClientRect().top <= line) current = h;
+        else break;
+      }
+      if (current) setActive(current.id);
+    };
+    update();
+    addEventListener('scroll', update, { passive: true });
+    addEventListener('resize', update);
+  }
+</script>

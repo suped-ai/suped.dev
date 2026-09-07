@@ -1,7 +1,8 @@
 ---
 title: Manifesto
 description: Give the agent a computer.
-order: 6
+section: why
+order: 1
 ---
 
 ## Give the agent a computer

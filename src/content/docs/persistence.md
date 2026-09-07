@@ -1,7 +1,8 @@
 ---
 title: Persistence
 description: Exactly what survives what.
-order: 3
+section: computer
+order: 2
 ---
 
 The promise is simple: your home directory survives everything short of you deleting it. The details are worth knowing.

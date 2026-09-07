@@ -1,7 +1,8 @@
 ---
 title: Commands
 description: The whole CLI fits on one screen.
-order: 4
+section: reference
+order: 1
 ---
 
 ## Commands

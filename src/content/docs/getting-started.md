@@ -1,6 +1,7 @@
 ---
 title: Getting started
 description: One command. A computer that keeps everything.
+section: start
 order: 1
 ---
 
