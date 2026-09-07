@@ -1,0 +1,15 @@
+---
+const path = Astro.url.pathname;
+const isDocs = path.startsWith('/docs');
+---
+
+<header class="site-header">
+  <div class="inner">
+    <a class="wordmark" href="/"><span class="sigil" aria-hidden="true">$</span>suped</a>
+    <nav class="site-nav" aria-label="Site">
+      <a href="/docs/getting-started" aria-current={isDocs ? 'page' : undefined}>docs</a>
+      <a href="https://github.com/suped-ai/suped" rel="noopener">github</a>
+      <a href="https://www.npmjs.com/package/suped" rel="noopener">npm</a>
+    </nav>
+  </div>
+</header>

@@ -1,0 +1,24 @@
+---
+interface Props {
+  command?: string;
+}
+const { command = 'npx suped@latest' } = Astro.props;
+---
+
+<button type="button" class="install" data-copy={command} aria-label={`Copy ${command}`}>
+  <span class="prompt" aria-hidden="true">$</span><span class="text">{command}</span><span class="cursor" aria-hidden="true"></span>
+</button>
+
+<script>
+  for (const el of document.querySelectorAll<HTMLButtonElement>('.install[data-copy]')) {
+    el.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(el.dataset.copy ?? '');
+        el.classList.add('copied');
+        setTimeout(() => el.classList.remove('copied'), 900);
+      } catch {
+        // clipboard unavailable; fail silently
+      }
+    });
+  }
+</script>
