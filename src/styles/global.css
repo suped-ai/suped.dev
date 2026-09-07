@@ -141,6 +141,13 @@ a:hover { text-decoration: underline; text-underline-offset: 0.2em; text-decorat
   border-bottom: 1px solid var(--line);
 }
 .hero-bg { position: absolute; inset: 0; z-index: 0; }
+.hero-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 42% 55% at 50% 50%, rgba(5, 5, 5, 0.92) 0%, rgba(5, 5, 5, 0.6) 55%, rgba(5, 5, 5, 0) 100%);
+  pointer-events: none;
+}
 .hero .inner {
   position: relative;
   z-index: 1;
@@ -163,7 +170,7 @@ a:hover { text-decoration: underline; text-underline-offset: 0.2em; text-decorat
   font-size: 0.95rem;
 }
 .hero .links { margin-top: 1.4rem; font-size: 0.75rem; letter-spacing: 0.12em; }
-.hero .links a { color: var(--dim); margin: 0 0.8rem; }
+.hero .links a { color: var(--muted); margin: 0 0.8rem; }
 .hero .links a:hover { color: var(--fg-strong); text-decoration: none; }
 
 .section {
@@ -343,7 +350,7 @@ a:hover { text-decoration: underline; text-underline-offset: 0.2em; text-decorat
   border-bottom: 1px solid var(--line);
 }
 .prose th { color: var(--dim); font-weight: 500; letter-spacing: 0.08em; font-size: 0.72rem; text-transform: uppercase; }
-.prose td code { white-space: nowrap; }
+@media (min-width: 900px) { .prose td code { white-space: nowrap; } }
 .prose .table-wrap { overflow-x: auto; }
 
 @media (prefers-reduced-motion: reduce) {
