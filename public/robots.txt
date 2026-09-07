@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://suped.dev/sitemap-index.xml

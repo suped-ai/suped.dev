@@ -12,6 +12,7 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
     "asciify-engine": "^1.0.118",
     "astro": "^7.3.1"
   },
