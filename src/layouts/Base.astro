@@ -15,7 +15,7 @@ const {
 
 const fullTitle = title ? `${title} · suped` : 'suped · give the agent a computer';
 // build.format is 'file', so the build-time pathname ends in .html; the served URL does not
-const canonical = new URL(Astro.url.pathname.replace(/\.html$/, ''), Astro.site);
+const canonical = new URL(Astro.url.pathname.replace(/\.html$/, '').replace(/\/index$/, '/'), Astro.site);
 const ogImage = new URL('/og.png', Astro.site);
 ---
 
