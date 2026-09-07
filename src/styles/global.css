@@ -254,6 +254,11 @@ a:hover { text-decoration: underline; text-underline-offset: 0.2em; text-decorat
 .section .body { min-width: 0; }
 
 @media (max-width: 760px) {
+  /* smaller headline on phones needs less shielding, and there's no pointer to
+     move the vortex out from under it, so keep the wave visible */
+  .hero::before {
+    background: radial-gradient(ellipse 60% 40% at 50% 50%, rgba(5, 5, 5, 0.8) 0%, rgba(5, 5, 5, 0.4) 55%, rgba(5, 5, 5, 0) 100%);
+  }
   /* minmax(0, 1fr), not 1fr: a bare 1fr can't shrink below the widest <pre> line */
   .section { grid-template-columns: minmax(0, 1fr); gap: 1rem; padding: 1.8rem 1.4rem; }
   .sections { padding: 0 1rem 3rem; }
