@@ -1,0 +1,34 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: every doc has a title, section, and order
+        run: |
+          set -e
+          for f in src/content/docs/*.md; do
+            for key in title section order; do
+              grep -q "^$key:" "$f" || { echo "$f is missing $key"; exit 1; }
+            done
+          done
+      - name: sitemap lists every page
+        run: |
+          set -e
+          test -f dist/sitemap-index.xml
+          for f in dist/docs/*.html; do
+            slug=$(basename "$f" .html)
+            grep -q "suped.dev/docs/$slug<" dist/sitemap-0.xml || { echo "$slug missing from sitemap"; exit 1; }
+          done

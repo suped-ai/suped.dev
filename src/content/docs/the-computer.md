@@ -29,12 +29,15 @@ The `suped` user has passwordless sudo, so `sudo apt-get install` works without 
 
 ## Playwright
 
-Chromium and its system dependencies are already there. In any project, install the `playwright` package and it will find the browser through `PLAYWRIGHT_BROWSERS_PATH`, which is set for you.
+Chromium and its system dependencies are already there. In any project, install the `playwright` package at the same version as the global one and it will find the browser through `PLAYWRIGHT_BROWSERS_PATH`, which is set for you.
 
 ```sh
-npm i playwright
+playwright --version          # e.g. Version 1.63.0
+npm i playwright@1.63.0
 node -e "require('playwright').chromium.launch().then(b => b.close())"
 ```
+
+Playwright ties each release to a specific browser build, so a different version would try to download its own Chromium. Matching the version avoids that. For one-off scripts you can skip the install entirely and use the global copy: `NODE_PATH="$(npm root -g)" node script.js`.
 
 Python users: `uv pip install playwright` works the same way against the same browser.
 
