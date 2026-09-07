@@ -254,6 +254,9 @@ a:hover { text-decoration: underline; text-underline-offset: 0.2em; text-decorat
 .section .body { min-width: 0; }
 
 @media (max-width: 760px) {
+  /* the wave runs brighter on phones (see the `touch` overrides in Base.astro),
+     so panels need a little more ground to keep body text readable */
+  :root { --panel-bg: rgba(5, 5, 5, 0.6); }
   /* smaller headline on phones needs less shielding, and there's no pointer to
      move the vortex out from under it, so keep the wave visible */
   .hero::before {
