@@ -1,72 +1,30 @@
 ---
-title: Manifesto
-description: Give the agent a computer.
+title: The idea
+description: Prepare a useful workspace, then let the agent use it.
 section: why
 order: 1
 ---
 
-## Give the agent a computer
+## Give the agent somewhere to work
 
-AI is remarkably capable. We keep surrounding it with abstractions designed for weaker models.
+A capable agent still needs tools, files, dependencies, and access to the services involved in its job. Preparing that environment should be easy to repeat, and the useful setup should still be there tomorrow.
 
-suped begins with a simpler premise: give the agent a real computer, tell it what you want, and get out of the way.
+Suped provides a persistent Linux workspace. You choose the tools, connect your accounts, and tell your agent what you want to build.
 
-## Build an environment, not a personality
+## Use the tools that already exist
 
-We do not need a `soul.md` to make software useful. We need a shell, files, programs, credentials, persistence, and a clear objective.
+Use `gh` for GitHub or `glab` for GitLab. Choose the CLI for your hosting and database providers. Connect apps through the agent client's native MCP support when that is the useful interface. The agent can inspect help, run commands, write scripts, and save its work in ordinary files.
 
-suped will not confuse lore with capability.
+Suped curates working installation and connection paths, with defaults you can change. Setup installs the tools and guides you through authentication. The resulting workspace stays usable from a shell, by your agent, or by another agent later.
 
-## Abstractions are for humans
+## Keep the operating brief small
 
-Every harness, orchestrator, canvas, persona, and memory system is an abstraction built for the agent. The agent doesn't need them. It needs a system it can work in and tools it can use.
+Describe the environment and the objective. Let the agent inspect the computer and use the programs available to it. A project can keep its run instructions and unfinished work in a README; it does not need a Suped-specific persona or memory format.
 
-Humans are the ones who need abstractions. An agent reads and updates a calendar through an API. A human needs to see the calendar.
+Different agents have their own configuration and requirements. Suped supplies the workspace they operate in rather than a new agent runtime.
 
-suped puts the abstraction on the right side. Agents get a headless Linux computer. Humans get the layer on top of it.
+## Make setup easier for people
 
-## No personas. No harnesses. No skill packs.
+The first step is a CLI that prepares tools and account access well. Later, a visual interface can guide people through the same setup, including creating and connecting service accounts.
 
-Every layer we put between a capable model and a real machine is a bet that the model can't be trusted with the machine. Personas to shape it, instruction files to constrain it, harnesses to hold it, skills to teach it the obvious. Each layer is a place for things to go wrong, and each one has to be maintained, explained, and carried to the next tool.
-
-Take the layers away and what's left is the thing that actually works: a competent operator, a computer, and an objective.
-
-## The system prompt
-
-```
-You are operating a persistent Linux computer on behalf of the user.
-
-You have access to the shell, filesystem, installed applications, and
-explicitly connected services.
-
-Use the computer to accomplish the user's objective. Inspect the
-environment, install dependencies when appropriate, write scripts, use
-APIs and CLIs, and preserve useful work in the filesystem.
-
-Ask the user only when you need information, authentication, or approval
-for a consequential action.
-```
-
-That is practically the whole philosophy.
-
-## Let Linux be Linux
-
-Start with a container or a lightweight VM. Give it a persistent home:
-
-```
-/home/suped/
-  workspace/
-  projects/
-  downloads/
-  .config/
-```
-
-Don't invent a special filesystem abstraction. Give the agent normal tools: bash, python, node, git, curl, wget, jq, sqlite, ffmpeg, ripgrep, unzip, a browser.
-
-If more is needed, the agent can add it. As you work, the workspace's capabilities grow with you. Switching computers or switching agents doesn't mean starting over.
-
-## What suped is
-
-A persistent computer, and a command that puts you or your agent in front of it.
-
-That's it. That's the product.
+The agent keeps using the same Linux tools and filesystem. [Where this goes](/docs/where-this-goes) describes the order; [getting started](/docs/getting-started) describes what you can run now.

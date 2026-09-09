@@ -1,17 +1,57 @@
 ---
 title: Agents
-description: Handing the computer to something other than you.
+description: Give your agent a workspace with tools and accounts ready.
 section: agents
 order: 1
 ---
 
-suped doesn't ship an agent. It ships the computer. Any agent that can run a shell command can use it, and any agent you install inside it inherits everything that's already there.
+Suped supplies a prepared workspace for the agent you choose. After [setup](/docs/tools), it can use your selected CLIs—such as `glab`, `vercel`, and `neon`—alongside the shell, Git, Python, Node, and browser tools. Optional [MCP connections](/docs/mcp) add services through the agent client's own integration support.
 
-## The prompt
+## Check before handing it over
 
-Tell the agent what it has. This is the entire system prompt suped recommends, and it's the same text at `/etc/suped/prompt.md` inside the box:
+Run these in the host terminal:
 
+```sh
+npx suped@latest tools
+npx suped@latest exec gh auth status
+npx suped@latest exec wrangler whoami
+npx suped@latest exec supabase projects list
 ```
+
+Run the checks for the tools you selected. They inspect account access; they do not create resources. A successful login does not necessarily grant permission to every organization, project, or action.
+
+## From outside
+
+An agent running on your host can use `exec` for commands in the workspace. Install Suped globally on the host with `npm i -g suped@latest`, then configure the agent's command tool to run:
+
+```sh
+suped exec gh auth status
+suped exec 'ls -la ~/projects'
+suped exec 'cd ~/projects/my-app && git status'
+```
+
+Replace the project name with your own. Without a global installation, use `npx suped@latest exec` as the command prefix. Configuration of the command tool depends on your agent; Suped does not automatically redirect a host agent's other filesystem or browser tools into the container.
+
+Each command starts in `/home/suped/workspace`. Use absolute paths or an explicit `cd` for work elsewhere. A single quoted string runs as a shell command; separate arguments are forwarded as arguments to the executable.
+
+## From inside
+
+Setup can install Codex or Claude Code in the persistent home. From the host:
+
+```sh
+npx suped@latest setup codex
+npx suped@latest exec codex
+```
+
+Use `claude` instead of `codex` for Claude Code. Your account or subscription is separate from installing the client. You can also install another agent using its own instructions. Put user tools under `~/.local` so they survive a reset; for an npm global install inside the workspace, first run `npm config set prefix ~/.local`.
+
+The agent runs beside the selected tools and account configuration. Follow its login instructions too: connecting service accounts does not authenticate your model provider. Setup offers MCP registration after a guided agent installation; see [MCP connections](/docs/mcp) to configure it later.
+
+## Give it the job
+
+The short operating brief is available through `npx suped@latest prompt` on the host and `/etc/suped/prompt.md` inside the workspace:
+
+```text
 You are operating a persistent Linux computer on behalf of the user.
 
 You have access to the shell, filesystem, installed applications, and
@@ -25,46 +65,19 @@ Ask the user only when you need information, authentication, or approval
 for a consequential action.
 ```
 
-`suped prompt` prints it so you can pipe it wherever your agent takes a system prompt. Add the objective. Resist adding more.
+Add the actual objective, for example:
 
-## Two ways in
-
-**From outside.** The agent runs on your machine and reaches into the computer with `suped exec`. Any agent framework with a shell tool can do this; give it `suped exec` as the shell and it never needs to know Docker exists.
-
-```sh
-suped exec 'ls projects'
-suped exec 'cd projects/app && git status'
+```text
+Build a project dashboard in ~/projects/dashboard.
+Create a GitHub repo and deploy the app to Cloudflare Pages.
+Return the repo URL and live app URL.
+Save the code and run instructions in the workspace.
 ```
 
-**From inside.** Install the agent's CLI in the computer and run it there. Now the agent, its auth, its config, and its work all live in the persistent home together.
+For an app that needs a database, select Supabase, Neon, Turso, or PlanetScale and include your requirements in the objective. Use GitLab and a different hosting provider in the same way. The brief describes the environment; it does not replace the agent's own required configuration.
 
-```sh
-npx suped@latest
-npm config set prefix ~/.local
-npm i -g <your-agent-cli>
-<your-agent-cli> login
-```
+## Continue with another agent
 
-Log in once. It's still logged in next month.
+Another agent in the same workspace can inspect the same saved code, tools, and account configuration. Unsaved conversation context does not transfer. Leave run instructions and remaining work in an ordinary project README so the next agent can pick it up.
 
-## Hot-swapping
-
-Because the state is in the computer rather than in the agent, swapping agents is uneventful. Two agents, or two models, or two versions of the same tool, all see the same repos, the same `.env` files, the same installed tools, the same browser profile. Nothing to migrate, nothing to re-explain.
-
-The same goes for machines. [Back up the volume](/docs/persistence#backup), restore it somewhere else, and the new machine has the same computer.
-
-## Credentials
-
-Things you authenticate inside the box stay inside the box: `gh auth login`, `aws configure`, `npm login`, a `.env` you drop into a project. They persist in `/home/suped` like everything else.
-
-Treat the computer accordingly. It's a real machine with real access, and the point is that an agent can use that access without asking you to re-enter it every time. Give it what the job needs. Keep the rest out.
-
-## Ports
-
-An agent that starts a dev server inside will want you to see it. Publish the port when creating the computer:
-
-```sh
-npx suped@latest -p 3000:3000
-```
-
-Or reach it from another container on the same Docker network by name, `suped`.
+Credentials remain subject to the service's expiration, revocation, and account permissions. Use `login` again when needed. Browser sessions persist only when your browser code explicitly saves a profile under `/home/suped`; see [the computer](/docs/the-computer#playwright).

@@ -6,86 +6,94 @@ import Install from '../components/Install.astro';
 <Base>
   <section class="hero">
     <div class="inner">
-      <h1>Lose the harness. Let it cook.</h1>
+      <h1>A workspace, suped up for your agent.</h1>
       <p>
-        A persistent computer where any model can use real tools,
-        run real software, and produce real work.
+        A curated Linux workspace with tools ready to use. Choose your providers,
+        connect your accounts, and give your agent a place to build.
       </p>
       <Install />
       <div class="links">
         <a href="/docs/getting-started">getting started</a>
-        <a href="/docs/manifesto">manifesto</a>
+        <a href="/docs/tools">tools &amp; accounts</a>
       </div>
     </div>
   </section>
 
   <div class="sections">
     <section class="section panel">
-      <h2>premise</h2>
-      <div class="body">
-        <p class="lead">AI is remarkably capable. We keep surrounding it with abstractions designed for weaker models.</p>
-        <ul class="nos">
-          <li>No restrictive tool registry</li>
-          <li>No predetermined workflows</li>
-          <li>No skill ceremony</li>
-          <li>No vendor-owned environment</li>
-          <li>No guessing what the agent might need</li>
-        </ul>
-        <p class="lead">Give it real tools and get out of the way.</p>
-        <p>The abstractions go on the human side. The agent gets a computer. <a href="/docs/where-this-goes">Where this goes.</a></p>
+      <h2>available now</h2>
+      <div class="body prose">
+        <p>
+          Suped 0.2.0 opens a persistent Ubuntu workspace with guided tool setup.
+          It needs Docker running and Node 18 or newer. The first run builds
+          the image locally and can take several minutes.
+        </p>
+        <p>
+          Choose from 17 optional CLIs, connect your accounts, and add app
+          connections through your agent's MCP client.{' '}
+          <a href="/docs/getting-started">Get started</a> or{' '}
+          <a href="/docs/getting-started#upgrade-from-010">upgrade your existing workspace</a>.
+        </p>
       </div>
     </section>
 
     <section class="section panel">
-      <h2>what you get</h2>
+      <h2>set it up</h2>
+      <div class="body prose">
+        <p class="lead">Choose your tools. Connect your accounts. Hand it over.</p>
+        <ol class="steps">
+          <li><strong>Start the workspace.</strong> Guided setup opens on the first interactive run.</li>
+          <li><strong>Choose your tools.</strong> Pick repository hosts, deployment platforms, databases, and an agent client. Connect the accounts and apps your work needs.</li>
+          <li><strong>Give your agent the job.</strong> It uses those CLIs to work with repos, apps, and deployments, with the access you granted.</li>
+          <li><strong>Come back to your work.</strong> Your home directory keeps projects, installed tools, and saved account configuration between sessions.</li>
+        </ol>
+        <p><a href="/docs/tools">See setup, account status, and reconnect commands.</a></p>
+        <p>
+          GitHub or GitLab. Cloudflare, Vercel, Netlify, or other hosts.
+          Supabase, Neon, Turso, or PlanetScale. Add payments and cloud tools,
+          then connect apps such as Notion, Linear, Figma, and Sentry through{' '}
+          <a href="/docs/mcp">your agent's MCP client</a>.
+        </p>
+      </div>
+    </section>
+
+    <section class="section panel">
+      <h2>what's inside</h2>
       <div class="body prose">
         <p>
-          One Linux box, yours, that keeps everything. Ubuntu with the tools an engineer
-          expects, a user with sudo, and a home directory that survives.
+          Ubuntu, bash, Python, Node, Git, uv, and Chromium through Playwright.
+          A normal filesystem, a user with sudo, and tools installed under your home.
         </p>
 <pre><code>/home/suped/
-  workspace/    where shells open
-  projects/
+  workspace/    where commands and shells start
+  projects/     a place for your repos
   downloads/
-  .config/</code></pre>
+  .config/
+  .local/bin/   tools on PATH</code></pre>
         <p>
-          bash · python · node · git · curl · wget · jq · sqlite · ffmpeg · ripgrep ·
-          unzip · uv · Chromium via Playwright. Need more? Install it. It stays.
+          Suped helps prepare the workspace. The agent uses ordinary programs and
+          files inside it. You supply the agent and the objective.
         </p>
         <p>
-          No special filesystem abstraction. No suped-specific anything inside the box.
-          Linux is Linux.
+          Home survives a container reset. System packages installed with apt do
+          not. <a href="/docs/persistence">See exactly what survives what.</a>
         </p>
       </div>
     </section>
 
     <section class="section panel">
-      <h2>how it works</h2>
+      <h2>hand it a job</h2>
       <div class="body prose">
-        <ol class="steps">
-          <li><strong>Run the command.</strong> The first run builds a local image and creates a persistent home. Every run after that is instant.</li>
-          <li><strong>Work in it, or hand it over.</strong> Open a shell yourself, or point an agent at it with <code>suped exec</code>. Install tools, clone repos, log in to services.</li>
-          <li><strong>Come back to it.</strong> Swap agents, swap machines, swap models. The computer is still there with everything you set up.</li>
-        </ol>
-      </div>
-    </section>
-
-    <section class="section panel">
-      <h2>the prompt</h2>
-      <div class="body prose">
-        <p>This is the entire system prompt. <code>suped prompt</code> prints it.</p>
-<pre><code>You are operating a persistent Linux computer on behalf of the user.
-
-You have access to the shell, filesystem, installed applications,
-and explicitly connected services.
-
-Use the computer to accomplish the user's objective. Inspect the
-environment, install dependencies when appropriate, write scripts,
-use APIs and CLIs, and preserve useful work in the filesystem.
-
-Ask the user only when you need information, authentication, or
-approval for a consequential action.</code></pre>
-        <p>That is practically the whole philosophy. <a href="/docs/manifesto">Read the rest.</a></p>
+        <p>After setup, a job can start with the services already connected:</p>
+<pre><code>Build a project dashboard in ~/projects/dashboard.
+Create a GitHub repo and deploy the app to Cloudflare Pages.
+Return the repo URL and live app URL.
+Save the code and run instructions in the workspace.</code></pre>
+        <p>
+          Setup can install Codex or Claude Code, or you can bring another agent.
+          It prepares tools and account access; your agent creates the resources for the job.{' '}
+          <a href="/docs/agents">Hand over the workspace.</a>
+        </p>
       </div>
     </section>
   </div>

@@ -10,10 +10,10 @@ interface Props {
 
 const {
   title,
-  description = 'A persistent computer where any model can use real tools, run real software, and produce real work.',
+  description = 'A persistent Linux workspace for your agent. Choose your tools, connect your accounts, and give it a place to build.',
 } = Astro.props;
 
-const fullTitle = title ? `${title} · suped` : 'suped · Lose the harness. Let it cook.';
+const fullTitle = title ? `${title} · suped` : 'suped · A workspace, suped up for your agent.';
 // build.format is 'file', so the build-time pathname ends in .html; the served URL does not
 const canonical = new URL(Astro.url.pathname.replace(/\.html$/, '').replace(/\/index$/, '/'), Astro.site);
 const ogImage = new URL('/og.png', Astro.site);
@@ -43,7 +43,7 @@ const ogImage = new URL('/og.png', Astro.site);
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Lose the harness. Let it cook. $ npx suped@latest" />
+    <meta property="og:image:alt" content="suped · npx suped@latest" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />

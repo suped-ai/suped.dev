@@ -1,29 +1,26 @@
 ---
 title: Where this goes
-description: Two phases. The agent's computer first, the human layer second.
+description: Prepare the workspace first. Make it easier to use later.
 section: why
 order: 2
 ---
 
-suped is built in two phases, in a fixed order.
+Suped is a curated workspace distribution for agents: useful software, coherent defaults, and a simple way to choose alternatives. The product starts with preparing that workspace well.
 
-## Phase one: the agent's computer
+## First: tools and accounts ready
 
-What exists today. A sandboxed, headless Linux environment with the tools an agent needs to do real work for a person: shell, languages, source control, a browser, a home directory that persists. Nothing agent-facing sits on top of it. No harness, no orchestrator, no persona, no memory system, no tool registry.
+The immediate workflow is concrete: start a persistent Linux workspace, choose the tools you use, authenticate your accounts, and hand it to your agent. Repository hosts, deployment platforms, databases, cloud services, payments, and agent clients are choices in setup. First-party MCP connections bring in project trackers, design tools, and documentation services.
 
-This phase is about refinement, not features. The measure of success is that an agent dropped into the box can get more done, with less friction, than it could anywhere else. Every improvement here is an improvement to the computer: better defaults, fewer rough edges, tools that are there before they're needed.
+Suped 0.2.0 supplies the workspace, curated catalogue, guided provider selection, sign-in steps, and status checks. The work continues on making that path dependable: installation, authentication, persistence, clear errors, and a straightforward hand-off. Catalogue entries need a working setup path, not just a download link.
 
-The [manifesto](/docs/manifesto) explains why the environment stays this bare.
+The agent uses ordinary CLIs and files. Suped prepares them so the user does not have to assemble the environment from scratch each time.
 
-## Phase two: the human layer
+## Later: guide more people through setup
 
-Once the computer is solid, suped builds the abstractions that people need to work alongside their agent. The agent never sees this layer. It keeps working in the same headless box. The layer exists so a person can see what's happening, steer it, and pick it up from anywhere.
+Once this works well in the CLI, a human interface can guide someone who has never used these services through choosing tools, creating the accounts they need, and connecting them to the workspace.
 
-Concretely, that means two things:
+That interface comes later. The current setup assumes you can use a terminal and have, or can create, your own service accounts.
 
-- **Easier interaction with your agent.** The visual counterpart to what the agent does through APIs and files. The agent updates the calendar; you see the calendar.
-- **A truly portable workspace.** The same computer, with everything in it, reachable from any machine you sit down at.
+## The boundary
 
-## What won't change
-
-The order. The human layer is built on top of a finished agent environment, not alongside a half-finished one. And the boundary: abstractions go on the human side. The agent gets a computer.
+The setup experience is for the person preparing the workspace. The agent continues to see a Linux computer with the tools and account access that person chose. [Start with the CLI](/docs/getting-started).
