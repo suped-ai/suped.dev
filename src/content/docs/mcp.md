@@ -14,7 +14,7 @@ suped mcp list
 suped mcp add notion linear --client claude
 ```
 
-These commands are included in Suped **0.3.0**. The examples use the `suped` shorthand after `npm i -g suped@latest`; replace it with `npx suped@latest` if you prefer to run without a global installation.
+These commands are included in Suped **0.4.0**. The examples use the `suped` shorthand after `npm i -g suped@latest`; replace it with `npx suped@latest` if you prefer to run without a global installation.
 
 ## Available services
 
