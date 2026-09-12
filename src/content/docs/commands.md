@@ -24,9 +24,12 @@ This reference covers Suped **0.2.0**. Install globally with `npm i -g suped@lat
 | `suped mcp add notion linear --client claude` | Register servers in Claude Code inside the workspace; also supports Codex. Account authorization follows in the client. |
 | `suped mcp export notion --client cursor` | Print a config fragment for Cursor, Claude Code, or Codex without changing files. |
 | `suped exec <command...>` | Run a shell string or executable arguments inside, starting in `~/workspace`. |
-| `suped status` | Show image, home volume, and container state. |
+| `suped sync` | Show what defines this workspace, and name the work that would not move. |
+| `suped sync save <file>` | Write the workspace to a portable file. Use `-` for stdout. |
+| `suped sync restore <file>` | Install that workspace's tools and clone its projects here. |
+| `suped status` | Show image, baked-in features, home volume, and container state. |
 | `suped stop` | Stop the container. Home is kept. |
-| `suped reset` | Recreate the container from the current image. Home is kept, apt installs are not. |
+| `suped reset` | Recreate the container from the current image. Home and baked-in features are kept, apt installs are not. |
 | `suped rebuild` | Rebuild the image, then reset. Add `--no-cache` to start from scratch. |
 | `suped destroy --yes` | Remove the container **and** the persistent home. |
 | `suped prompt` | Print the system prompt. |
@@ -41,8 +44,12 @@ Used when the container is first created, and by `reset` and `rebuild`. Put cont
 |---|---|
 | `-p, --publish <host:container>` | Publish a port. Repeatable. |
 | `-v, --volume <host:container>` | Mount an extra host path. Repeatable. |
+| `--with <features>` | Bake optional software into the image: `browser`, `build`, `media`. Comma separated, repeatable. |
+| `--without` | Bake none of it in. |
 
 Their values use Docker's publish and volume syntax. Reset and rebuild preserve existing ports and mounts unless you replace a list by passing its flag. `-p` replaces the port list while keeping mounts; `-v` replaces extra mounts while keeping ports.
+
+`--with` behaves the same way: passing it replaces the selection, and leaving it off keeps what the computer already has. Because the selection is part of the image tag, changing it rebuilds a layer rather than installing into the running container — see [the computer](/docs/the-computer) for what each feature costs and [persistence](/docs/persistence) for why it works that way. `--with` is ignored on a computer that already exists; use `suped rebuild --with ...`.
 
 ## Environment
 
