@@ -27,6 +27,8 @@ Your home directory lives in a Docker volume, separate from the container. Files
 | `suped destroy --yes` | **lost** | kept (the image remains) | lost |
 | Upgrading the `suped` package | kept | kept | kept, until you `reset` |
 
+Scheduled jobs survive too, but not because of where they live: a user's crontab sits in `/var/spool/cron`, which is the container and not the home volume. `reset` reads it out and puts it back, the same way it carries ports and mounts, so a `suped reset` does not quietly stop your schedule.
+
 This is why a browser, a C toolchain, and ffmpeg are image features rather than things setup installs for you. They are system packages, and the apt column is the reason: installed into a running container, they would vanish the first time you reset — which is the ordinary way to upgrade.
 
 Change what is baked in with `suped rebuild --with browser` or `--without`; `reset` and `rebuild` keep your existing selection when you pass neither.
@@ -71,6 +73,23 @@ Run `suped sync` before you travel. It names every repository with uncommitted c
 The file contains no credentials, so connect accounts on the new machine with `suped login <tool>`. `restore` does not copy the home volume: it reinstalls the selected tools, so they are built for the architecture they land on, and clones each project from its remote. Existing directories are never overwritten. Ports and mounts are fixed when a container is created, so `restore` prints the `suped reset` command to apply them.
 
 Baked-in features are not part of the file. Recreate them on the other machine with `suped --with browser` when you create the computer there.
+
+## Account access
+
+`sync` carries no credentials, by design. Moving them is a separate command you have to mean:
+
+```sh
+suped secrets                      # what can travel, and what has to be redone
+suped secrets key                  # this workspace's identity
+suped secrets save secrets.age     # seal what can travel
+suped secrets restore secrets.age  # on the other machine
+```
+
+The sealed file is encrypted with [age](https://age-encryption.org) and is safe to commit. **The identity is not.** It lives at `~/.config/suped/authsy.key`, it is the one thing you move between machines yourself, and anything holding it can open every secret inside. Lose it and the sealed files cannot be opened.
+
+It is a keypair rather than a passphrase because `age -p` reads from the terminal and fails when there is not one, which is exactly the situation an agent works in.
+
+Where a provider can hand its credential over, Suped uses the provider's own path rather than copying files — `gh auth token` and `gh auth login --with-token`, for instance, because `gh` keeps its token in the system keyring on machines that have one and in a config file on machines that do not. Providers are added one at a time, each verified against a real login, so `suped secrets` tells you plainly which ones travel and which you will sign into again.
 
 ## Backup
 

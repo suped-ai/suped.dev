@@ -23,6 +23,8 @@ cat cli/docker/Dockerfile
 | Network | curl, wget, ca-certificates |
 | Web | w3m, lynx |
 | Data | jq, sqlite3, ripgrep, unzip, zip |
+| Scheduling | cron |
+| Secrets | age |
 
 That base builds in about a minute. The `suped` user has passwordless sudo. Run `sudo apt-get update` before installing a system package. Those packages survive stop/start but not container reset.
 
@@ -121,6 +123,16 @@ Save this inside a project with the matching Playwright package installed. Avoid
 
 These are suggestions, not rules. Make whatever structure you want. The only thing that matters is that it's under `/home/suped`, because that's what [persists](/docs/persistence).
 
+## Scheduled work
+
+cron runs in the computer, so `crontab -e` schedules work that actually happens. `reset` carries your crontab across, the same way it carries ports and mounts.
+
+One thing to know: cron gives a job `PATH=/usr/bin:/bin` and ignores both the container environment and `/etc/environment`, so a scheduled `gh` would not be found. The crontab ships with a `PATH` line that includes `~/.local/bin`. If you replace the whole crontab that line goes with it, so the durable form is to wrap the command:
+
+```sh
+* * * * * bash -lc 'cd ~/projects/app && ./nightly.sh >> ~/nightly.log 2>&1'
+```
+
 ## Workspace setup
 
 Suped remembers your setup selection in `~/.config/suped/setup.json`. This is workspace setup state, not an agent prompt or a credentials store. Each vendor CLI manages its own authentication in your home.
@@ -133,6 +145,6 @@ For the curious, the computer is:
 
 - one Docker image, tagged `suped-computer:<version>`,
 - one named volume, `suped-home`, mounted at `/home/suped`,
-- one container, `suped`, running `sleep infinity` under an init process.
+- one container, `suped`, running `suped-init` under an init process. That starts cron and then waits.
 
 The CLI opens shells and runs commands with `docker exec`. You can inspect and manage the container with normal Docker commands too.
