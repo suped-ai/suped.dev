@@ -33,7 +33,7 @@ This is why a browser, a C toolchain, and ffmpeg are image features rather than 
 
 Change what is baked in with `suped rebuild --with browser` or `--without`; `reset` and `rebuild` keep your existing selection when you pass neither.
 
-Prefer home installs for tools you want to keep: `uv tool install`, a tarball under `~/.local`, or a virtual environment. For npm tools, first use `npm config set prefix ~/.local`, then `npm i -g`. Tools selected through the setup already install under `~/.local` explicitly.
+Prefer home installs for tools you want to keep: `uv tool install` (with the `python` selection), a tarball under `~/.local`, or a virtual environment. For npm tools, first use `npm config set prefix ~/.local`, then `npm i -g`. Tools selected through the setup already install under `~/.local` explicitly.
 
 The setup selection and the vendor CLIs' saved authentication stay in your home too. Services can expire or revoke credentials independently of those files; reconnect when needed.
 
