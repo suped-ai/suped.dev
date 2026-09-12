@@ -17,7 +17,7 @@ order: 1
 npx suped@latest
 ```
 
-Suped **0.2.0** opens a persistent Linux workspace and guides you through choosing tools, connecting accounts, and adding optional MCP connections.
+Suped **0.3.0** opens a persistent Linux workspace and guides you through choosing tools, connecting accounts, and adding optional MCP connections.
 
 The first run builds a local image and creates a persistent home. The base image takes about a minute and under a gigabyte. Later runs reuse the image and workspace.
 
@@ -101,9 +101,9 @@ npx suped@latest setup
 npx suped@latest tools
 ```
 
-The 0.2.0 CLI builds its local image if needed before replacing the old container. It reuses your existing home volume, keeping files, home-installed tools, and saved account configuration. It also recovers published ports and extra mounts from a 0.1.0 container. Reset stops running processes and replaces changes outside the home, including apt installs, with the image's contents.
+The 0.3.0 CLI builds its local image if needed before replacing the old container. It reuses your existing home volume, keeping files, home-installed tools, and saved account configuration. It also recovers published ports and extra mounts from a 0.1.0 container. Reset stops running processes and replaces changes outside the home, including apt installs, with the image's contents.
 
-Keep the same `SUPED_CONTAINER` and `SUPED_VOLUME` values if you use custom names. If you set `SUPED_IMAGE`, update or unset that override to use the image shipped with 0.2.0. `rebuild` also keeps the home but rebuilds the image even when it already exists; `reset` is sufficient for this upgrade. See [upgrading and persistence](/docs/persistence#upgrading).
+Keep the same `SUPED_CONTAINER` and `SUPED_VOLUME` values if you use custom names. If you set `SUPED_IMAGE`, update or unset that override to use the image shipped with 0.3.0. `rebuild` also keeps the home but rebuilds the image even when it already exists; `reset` is sufficient for this upgrade. See [upgrading and persistence](/docs/persistence#upgrading).
 
 ## Optional global install
 

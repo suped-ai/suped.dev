@@ -11,6 +11,23 @@ this covers the wider work — infrastructure, decisions, and the things that we
 
 ## 2026-09-12
 
+### 0.3.0, and the release that never happened
+
+npm had only **0.1.0**. `cli/package.json` said `0.2.0`, the changelog had a 0.2.0 section, the
+`v0.2.0` tag was pushed, and both this site and the README described guided setup, 17 CLIs and nine
+MCP connections. `npm version` and `git push --follow-tags` had run; `npm publish` had not. Anyone
+running `npx suped@latest` was getting 0.1.0 — none of it. Found while checking something unrelated.
+
+The same shape as the deploy outage five days earlier: a step skipped, and everything downstream
+assuming it had happened.
+
+0.3.0 is the first release to carry any of it. Releases now run in GitHub Actions on a `v*` tag with
+npm **trusted publishing** — npm deprecated long-lived automation tokens, and this is better than
+what it replaces: the workflow proves who it is with a short-lived OIDC token, so there is no secret
+in a password manager, none in GitHub, and nothing to rotate. The workflow refuses any ref that is
+not a tag, and refuses a tag that disagrees with `package.json`. A tag pushed without a publish is
+now a red workflow rather than silence.
+
 ### Accounts, not just credentials
 
 The store now holds records. An account is an address, a password, a second factor, recovery codes

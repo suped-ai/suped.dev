@@ -7,7 +7,7 @@ order: 1
 
 ## Commands
 
-This reference covers Suped **0.2.0**. Install globally with `npm i -g suped@latest` to use `suped` as shown below, or replace that prefix with `npx suped@latest` to run without a global install.
+This reference covers Suped **0.3.0**. Install globally with `npm i -g suped@latest` to use `suped` as shown below, or replace that prefix with `npx suped@latest` to run without a global install.
 
 | Command | What it does |
 |---|---|

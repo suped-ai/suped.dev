@@ -11,7 +11,7 @@ Suped is a curated workspace distribution for agents: useful software, coherent 
 
 The immediate workflow is concrete: start a persistent Linux workspace, choose the tools you use, authenticate your accounts, and hand it to your agent. Repository hosts, deployment platforms, databases, cloud services, payments, and agent clients are choices in setup. First-party MCP connections bring in project trackers, design tools, and documentation services.
 
-Suped 0.2.0 supplies the workspace, curated catalogue, guided provider selection, sign-in steps, and status checks. The work continues on making that path dependable: installation, authentication, persistence, clear errors, and a straightforward hand-off. Catalogue entries need a working setup path, not just a download link.
+Suped 0.3.0 supplies the workspace, curated catalogue, guided provider selection, sign-in steps, and status checks. The work continues on making that path dependable: installation, authentication, persistence, clear errors, and a straightforward hand-off. Catalogue entries need a working setup path, not just a download link.
 
 The agent uses ordinary CLIs and files. Suped prepares them so the user does not have to assemble the environment from scratch each time.
 
