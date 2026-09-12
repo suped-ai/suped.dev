@@ -5,7 +5,7 @@ section: start
 order: 2
 ---
 
-Suped **0.3.0** includes the tool catalogue and guided account setup below. Run these commands from your host terminal. See [getting started](/docs/getting-started) for requirements and upgrading an existing workspace.
+Suped **0.4.0** includes the tool catalogue and guided account setup below. Run these commands from your host terminal. See [getting started](/docs/getting-started) for requirements and upgrading an existing workspace.
 
 Suped prepares a workspace around the tools you use. Choose GitHub or GitLab, Cloudflare or Vercel, Supabase or Neon—or combine the services your work needs. Your agent uses their ordinary commands and saved account connections inside the same Linux home.
 
@@ -38,7 +38,7 @@ Run `login` interactively afterward. Setup installs tools in the workspace, not 
 
 ## Available CLIs
 
-The catalogue contains 17 optional CLIs. The base workspace already includes Git, Node, Python, a browser with Playwright, and other [development tools](/docs/the-computer).
+The catalogue contains 23 optional CLIs. The base workspace already includes Git, Node 22, Ubuntu's Python 3.12, and other [development tools](/docs/the-computer). A browser is opt-in, built into the image with `--with browser`.
 
 ### Repositories
 
@@ -89,6 +89,47 @@ The catalogue contains 17 optional CLIs. The base workspace already includes Git
 
 Both clients are optional. You can bring another agent or use a host agent through `suped exec`. Agent accounts are separate from your service accounts. See [agents](/docs/agents) for the handoff and [MCP connections](/docs/mcp) for connecting apps to a compatible agent client.
 
+### Languages and runtimes
+
+| Selection | Command | Use it for |
+| --- | --- | --- |
+| `python` | `python3` | [CPython 3.14.7](https://docs.astral.sh/uv/) with `uv` and `uvx`: packages, virtual environments, and scripts |
+| `go` | `go` | [Go 1.27.1](https://go.dev/doc/): building, testing, and module management, with `gofmt` |
+| `deno` | `deno` | [Deno 2.9.6](https://docs.deno.com/runtime/): JavaScript and TypeScript with a formatter, linter, and test runner built in |
+| `bun` | `bun` | [Bun 1.4.2](https://bun.com/docs): JavaScript and TypeScript with a fast npm-compatible package manager |
+
+Node 22 is already in the base image. These are the other runtimes an agent needs to run code, build, and test locally. Each is pinned and checksum-verified against the publisher's own figures, and unpacks into the persistent home rather than the image, so picking one up later does not mean rebuilding the workspace.
+
+Ubuntu's `python3` (3.12) is in the base image and is externally managed, so `pip install` outside a virtual environment refuses to run. Selecting `python` installs `uv` and `uvx` and puts a current CPython ahead of Ubuntu's on PATH. System scripts with an absolute `#!/usr/bin/python3` are unaffected.
+
+### Containers
+
+| Selection | Command | Use it for |
+| --- | --- | --- |
+| `docker` | `docker` | [Docker](https://docs.docker.com/reference/cli/docker/) client, with Compose and Buildx: build and run containers during local development |
+
+This installs the **client** only. Suped runs no daemon and does not mount your host's Docker socket. The Compose and Buildx plugins install to `~/.docker/cli-plugins`, where the CLI looks for subcommands, so they are not on PATH.
+
+Give the client a daemon yourself:
+
+```sh
+# A remote or rootless daemon. Nothing of the host is exposed.
+npx suped@latest exec env DOCKER_HOST=ssh://you@builder docker ps
+
+# The host's daemon.
+npx suped@latest -v /var/run/docker.sock:/var/run/docker.sock
+```
+
+The second form is a privilege grant, not a convenience: a container started from inside the workspace can mount the host filesystem, so anything in the workspace effectively has root on your host. Prefer the first unless you have decided otherwise for a workspace you fully trust.
+
+### Workspace
+
+| Selection | Command | Use it for |
+| --- | --- | --- |
+| `herdr` | `herdr` | [Herdr](https://herdr.dev/docs/): run several agents side by side in one terminal and reattach later |
+
+Nothing in this category has an account. `suped tools herdr` reports it as `installed` rather than waiting on a connection, and setup does not offer to connect one.
+
 ## Example combinations
 
 These are selections you can make, not separate editions of Suped:
@@ -99,7 +140,9 @@ These are selections you can make, not separate editions of Suped:
 | A site with functions and a small database | `github netlify turso` |
 | An app using Supabase services | `github cloudflare supabase` |
 | A service with background jobs | `gitlab render planetscale` |
-| Scripts that manage cloud infrastructure | `github digitalocean` |
+| Scripts that manage cloud infrastructure | `github digitalocean python` |
+| Local work in a compiled language | `github go` |
+| Building and checking container images | `github docker` |
 
 Add `stripe` when working on payments, or an agent client if you want it installed inside. You can add another provider at any time with `setup`.
 
@@ -149,7 +192,7 @@ Your home survives shell exit, stop/start, reset, and rebuild. System packages i
 
 ## Supabase cloud and local development
 
-The installed CLI can work with hosted Supabase projects. Supabase's local development stack requires its own Docker environment; it is not bundled here, and Suped does not mount the host Docker socket into the workspace. Installing the CLI alone does not make `supabase start` available as a working local stack.
+The installed CLI can work with hosted Supabase projects. Supabase's local development stack requires a Docker daemon, which Suped does not run or mount for you. Select `docker` and point it at a daemon by one of the routes above, and understand the trade-off described there before using the host's socket. Installing the Supabase CLI alone does not make `supabase start` a working local stack.
 
 ## After setup
 

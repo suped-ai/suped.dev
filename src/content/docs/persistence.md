@@ -33,13 +33,13 @@ This is why a browser, a C toolchain, and ffmpeg are image features rather than 
 
 Change what is baked in with `suped rebuild --with browser` or `--without`; `reset` and `rebuild` keep your existing selection when you pass neither.
 
-Prefer home installs for tools you want to keep: `uv tool install`, a tarball under `~/.local`, or a virtual environment. For npm tools, first use `npm config set prefix ~/.local`, then `npm i -g`. Tools selected through the setup already install under `~/.local` explicitly.
+Prefer home installs for tools you want to keep: `uv tool install` (with the `python` selection), a tarball under `~/.local`, or a virtual environment. For npm tools, first use `npm config set prefix ~/.local`, then `npm i -g`. Tools selected through the setup already install under `~/.local` explicitly.
 
 The setup selection and the vendor CLIs' saved authentication stay in your home too. Services can expire or revoke credentials independently of those files; reconnect when needed.
 
 ## Ports and extra mounts
 
-Suped 0.3.0's `reset` and `rebuild` preserve existing published ports and extra mounts by default, including those recovered from a 0.1.0 container. Passing `-p` replaces the whole published-port list and retains mounts; passing `-v` replaces the extra-mount list and retains ports. Repeat the flag to supply several entries.
+Suped 0.4.0's `reset` and `rebuild` preserve existing published ports and extra mounts by default, including those recovered from a 0.1.0 container. Passing `-p` replaces the whole published-port list and retains mounts; passing `-v` replaces the extra-mount list and retains ports. Repeat the flag to supply several entries.
 
 Files in a host bind mount live on the host, outside `suped-home`. They are not included in a home-volume backup and are not removed by `destroy --yes`.
 
@@ -47,7 +47,7 @@ Files in a host bind mount live on the host, outside `suped-home`. They are not 
 
 A new `suped` version may ship a new image. When that happens, the CLI tells you the container was created from an older image and suggests `suped reset`. Your home is untouched either way. Until you reset, you keep running the old image.
 
-To upgrade a 0.1.0 workspace to 0.3.0, save running work in your home and run the current CLI from your host:
+To upgrade a 0.1.0 workspace to 0.4.0, save running work in your home and run the current CLI from your host:
 
 ```sh
 npx suped@latest reset
@@ -56,7 +56,7 @@ npx suped@latest setup
 
 Reset builds the new image if it is missing, then replaces the container using the existing home volume, ports, and extra mounts. If the image build fails, the existing container is kept. Home files and saved credentials remain; reset stops running processes and replaces changes outside the home, including apt installs. `rebuild` runs an image build before the same reset operation, using Docker's cache unless you add `--no-cache`.
 
-Keep your existing `SUPED_CONTAINER` and `SUPED_VOLUME` settings when using custom names. An explicit `SUPED_IMAGE` overrides the image shipped with the CLI; update or unset it to move to the 0.3.0 image. A global CLI installation can be updated with `npm i -g suped@latest` before using `suped reset`.
+Keep your existing `SUPED_CONTAINER` and `SUPED_VOLUME` settings when using custom names. An explicit `SUPED_IMAGE` overrides the image shipped with the CLI; update or unset it to move to the 0.4.0 image. A global CLI installation can be updated with `npm i -g suped@latest` before using `suped reset`.
 
 ## Moving to another machine
 

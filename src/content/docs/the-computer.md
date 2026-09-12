@@ -18,7 +18,7 @@ cat cli/docker/Dockerfile
 | Category | Tools |
 |---|---|
 | Shell | bash, tmux, less, vim, nano |
-| Languages | python3 with pip and venv, node 22 with npm and npx, uv |
+| Languages | python3 with pip and venv, node 22 with npm and npx |
 | Source | git, openssh-client |
 | Network | curl, wget, ca-certificates |
 | Web | w3m, lynx |
@@ -63,13 +63,13 @@ w3m -dump https://example.com
 
 That covers documentation, articles, and API references. Reach for `--with browser` when a page needs JavaScript to render, or when you are driving a page rather than reading it.
 
-Suped 0.3.0 offers [17 optional CLIs](/docs/tools) for repositories, hosting, databases, cloud infrastructure, payments, and agent clients. Select the providers you use. They install under `~/.local` and are available on PATH. The agent uses the vendor commands directly.
+Suped offers [23 optional CLIs](/docs/tools) for repositories, hosting, databases, cloud infrastructure, payments, agent clients, language runtimes, containers, and the workspace itself. Select the providers you use. They install under `~/.local` and are available on PATH. The agent uses the vendor commands directly.
 
 ## User-installed tools
 
-For npm tools, first run `npm config set prefix ~/.local` inside the workspace, then use `npm i -g` for the package you want. `uv tool install` also installs in your home. Both survive container reset. Tools installed by Suped's setup already use home paths explicitly.
+For npm tools, first run `npm config set prefix ~/.local` inside the workspace, then use `npm i -g` for the package you want. With the `python` selection installed, `uv tool install` also installs in your home. Both survive container reset. Tools installed by Suped's setup already use home paths explicitly.
 
-Use a virtual environment for Python project dependencies:
+Use a virtual environment for Python project dependencies. `uv` arrives with the [`python` selection](/docs/tools); Ubuntu's own `python3 -m venv` is in the base image either way:
 
 ```sh
 cd ~/workspace

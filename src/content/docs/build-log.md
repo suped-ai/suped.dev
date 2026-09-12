@@ -8,6 +8,26 @@ order: 3
 What has been added, newest first. Exact changes per release are in the CLI's
 [changelog](https://github.com/suped-ai/suped/blob/main/cli/CHANGELOG.md).
 
+## 0.4.0 · 2026-09-12
+
+**The workspace can run what it builds.** Python 3.14.7 with `uv` and `uvx`, Go 1.27.1, Deno 2.9.6
+and Bun 1.4.2, alongside the Node already in the base. Each is pinned and checksum-verified and
+unpacks into the persistent home rather than the image, so picking a language up later never means
+rebuilding. Selecting Python puts a current CPython ahead of Ubuntu's externally managed 3.12.
+
+**The Docker client, and no daemon.** The CLI with the Compose and Buildx plugins, for local builds
+and container checks. Suped runs no daemon and never mounts your host's socket — a workspace holding
+that socket can start a container with the host filesystem mounted, so it is root on the host. Point
+the client at a daemon with `DOCKER_HOST`, or mount the socket yourself knowing what it grants.
+
+**Tools that have nothing to sign in to.** Herdr arrives under a new Workspace category, and setup
+now understands that some tools have no account: it stops offering to connect one, reports them as
+installed rather than unverified, and explains instead of failing a login that could never exist.
+
+**Credentials the providers already read.** `suped secrets env` prints shell exports for the
+environment variables each provider documents, so one stored token covers every machine:
+`eval "$(suped secrets env)"`.
+
 ## 0.3.0 · 2026-09-12
 
 **A small base image, with the heavy software opt-in.** The base is about a quarter of its previous
