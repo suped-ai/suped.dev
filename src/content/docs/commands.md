@@ -27,6 +27,10 @@ This reference covers Suped **0.2.0**. Install globally with `npm i -g suped@lat
 | `suped sync` | Show what defines this workspace, and name the work that would not move. |
 | `suped sync save <file>` | Write the workspace to a portable file. Use `-` for stdout. |
 | `suped sync restore <file>` | Install that workspace's tools and clone its projects here. |
+| `suped secrets` | Show which account access can travel to another machine, and which has to be re-authenticated. |
+| `suped secrets key` | Create this workspace's encryption identity. |
+| `suped secrets save <file>` | Seal the credentials that can travel. The file is safe to commit. |
+| `suped secrets restore <file>` | Open a sealed file and sign those tools back in. |
 | `suped status` | Show image, baked-in features, home volume, and container state. |
 | `suped stop` | Stop the container. Home is kept. |
 | `suped reset` | Recreate the container from the current image. Home and baked-in features are kept, apt installs are not. |

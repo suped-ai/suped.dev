@@ -11,6 +11,43 @@ this covers the wider work — infrastructure, decisions, and the things that we
 
 ## 2026-09-12
 
+### Account access can travel
+
+Tooling and projects moved; account access did not, and reconnecting every provider on every
+machine was the part that still hurt. `suped secrets` seals the credentials that can travel into
+one [age](https://age-encryption.org)-encrypted file that is safe to commit, and signs those tools
+back in on the other side. No hosted service, no paid dependency.
+
+A keypair, not a passphrase: `age -p` reads from `/dev/tty` and fails outright when there is no
+terminal, which is exactly the situation an agent works in. So one identity file is the single
+thing you move out of band, once per machine.
+
+It hands the provider its own credential rather than copying files. `gh` keeps its token in the
+system keyring where one exists and in `hosts.yml` where one does not, so the file to copy is not
+the same on every machine; `gh auth token` and `gh auth login --with-token` work anywhere. Secrets
+move on stdin in both directions and never reach a command line.
+
+GitHub is the only provider wired up so far. The rest are added one at a time, each verified
+against a real login, and `suped secrets` says plainly which travel and which you will sign into
+again. The crypto and file format live in a file that knows nothing about Suped, Docker or any
+provider, so it can be lifted out if it turns out to deserve its own project.
+
+### Scheduled work actually runs
+
+"The agent can make a cronjob" was not true: cron was not installed, and the container ran
+`sleep infinity`, so nothing would have started it either. A scheduler that accepts `crontab -e`
+and silently never fires is worse than no scheduler.
+
+cron is now in the base — 230 kB, and it runs standalone without systemd — and the computer runs
+`suped-init`, which starts it and then waits.
+
+Two things would have made it a trap. cron gives a job `PATH=/usr/bin:/bin` and ignores both the
+container environment and `/etc/environment`, so a scheduled `gh` would not be found; the crontab
+now ships with a working `PATH`. And a user's crontab lives in `/var/spool/cron`, which is the
+container and not the home volume, so `reset` was quietly dropping every scheduled job — found by
+running it rather than by reading it. `reset` now carries the crontab across, the same way it
+carries ports and mounts.
+
 ### The base image got small
 
 Measured on a two-core machine, cold: the image was **2.94 GB and took 3 m 16 s** to build. Three
