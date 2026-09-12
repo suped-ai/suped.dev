@@ -11,6 +11,24 @@ this covers the wider work — infrastructure, decisions, and the things that we
 
 ## 2026-09-12
 
+### Accounts, not just credentials
+
+The store now holds records. An account is an address, a password, a second factor, recovery codes
+and whatever key was issued later — keeping only "the secret" threw away everything needed to sign
+in again, recover, or know which mailbox the confirmation went to. Entries have a kind: `token`,
+`email`, and `account`.
+
+Accounts are signed up with a mailbox you already own, referenced from the record, rather than an
+address invented per service that nobody can recover later.
+
+Where a service will not let an agent sign up — and a ban is a worse outcome than a question — the
+account is recorded as **pending** with what it still needs, surfaced wherever the store is listed.
+Finishing it is just replacing the entry, and the record keeps whether a person or an agent made it.
+
+Suped still does not sign anyone up. The agent does that with a browser and a shell like a person
+would; this holds the mailbox to do it with and records what came back. Making Suped drive the
+signup would be the agent-facing abstraction the project refuses.
+
 ### Account access can travel
 
 Tooling and projects moved; account access did not, and reconnecting every provider on every
