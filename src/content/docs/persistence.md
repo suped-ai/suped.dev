@@ -7,23 +7,29 @@ order: 2
 
 Your home directory lives in a Docker volume, separate from the container. Files and configuration saved there survive container recreation. Running processes and the rest of the container filesystem do not.
 
-## Two layers
+## Three layers
 
 **The home volume.** `/home/suped` is a Docker named volume called `suped-home`. It is separate from the container and the image. Clones, virtualenvs, dotfiles, credentials, browser profiles, `uv tool install`, `npm i -g` with a user prefix, everything under `~/.config` and `~/.local`: all of it lives here.
 
 **The container layer.** Everything else on the filesystem, notably packages you install with `apt`, lives in the container itself.
 
+**The image.** The base tools, and whatever [optional software](/docs/the-computer) you baked in with `--with`. Your selection is part of the image tag, so recreating the container reproduces it.
+
 ## What survives
 
-| Action | Home volume | apt packages |
-|---|---|---|
-| Exit the shell | kept | kept |
-| `suped stop` and start again | kept | kept |
-| Docker or machine restart | kept | kept |
-| `suped reset` | kept | lost |
-| `suped rebuild` | kept | lost |
-| `suped destroy --yes` | **lost** | lost |
-| Upgrading the `suped` package | kept | kept, until you `reset` |
+| Action | Home volume | Baked-in features | apt packages |
+|---|---|---|---|
+| Exit the shell | kept | kept | kept |
+| `suped stop` and start again | kept | kept | kept |
+| Docker or machine restart | kept | kept | kept |
+| `suped reset` | kept | kept | lost |
+| `suped rebuild` | kept | kept | lost |
+| `suped destroy --yes` | **lost** | kept (the image remains) | lost |
+| Upgrading the `suped` package | kept | kept | kept, until you `reset` |
+
+This is why a browser, a C toolchain, and ffmpeg are image features rather than things setup installs for you. They are system packages, and the apt column is the reason: installed into a running container, they would vanish the first time you reset — which is the ordinary way to upgrade.
+
+Change what is baked in with `suped rebuild --with browser` or `--without`; `reset` and `rebuild` keep your existing selection when you pass neither.
 
 Prefer home installs for tools you want to keep: `uv tool install`, a tarball under `~/.local`, or a virtual environment. For npm tools, first use `npm config set prefix ~/.local`, then `npm i -g`. Tools selected through the setup already install under `~/.local` explicitly.
 
@@ -50,9 +56,25 @@ Reset builds the new image if it is missing, then replaces the container using t
 
 Keep your existing `SUPED_CONTAINER` and `SUPED_VOLUME` settings when using custom names. An explicit `SUPED_IMAGE` overrides the image shipped with the CLI; update or unset it to move to the 0.2.0 image. A global CLI installation can be updated with `npm i -g suped@latest` before using `suped reset`.
 
+## Moving to another machine
+
+A workspace is defined by the tools you selected, the ports and mounts it was created with, and the repositories in it. `sync` writes exactly that to a small JSON file:
+
+```sh
+suped sync                          # what defines this workspace, and what would not move
+suped sync save workspace.json      # write it; "-" prints to stdout
+suped sync restore workspace.json   # on the other machine
+```
+
+Run `suped sync` before you travel. It names every repository with uncommitted changes, commits that are not on a remote, or no remote at all — the work a move would leave behind — and exits non-zero if it finds any.
+
+The file contains no credentials, so connect accounts on the new machine with `suped login <tool>`. `restore` does not copy the home volume: it reinstalls the selected tools, so they are built for the architecture they land on, and clones each project from its remote. Existing directories are never overwritten. Ports and mounts are fixed when a container is created, so `restore` prints the `suped reset` command to apply them.
+
+Baked-in features are not part of the file. Recreate them on the other machine with `suped --with browser` when you create the computer there.
+
 ## Backup
 
-Back up the home volume while the workspace is stopped so agents and applications are not changing it. The following commands use a POSIX shell and the default volume/container names:
+To copy a home volume byte for byte, including its saved logins, back it up while the workspace is stopped so agents and applications are not changing it. The following commands use a POSIX shell and the default volume/container names:
 
 ```sh
 docker stop suped

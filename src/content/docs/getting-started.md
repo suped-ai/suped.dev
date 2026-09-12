@@ -19,7 +19,9 @@ npx suped@latest
 
 Suped **0.2.0** opens a persistent Linux workspace and guides you through choosing tools, connecting accounts, and adding optional MCP connections.
 
-The first run builds a local image and creates a persistent home. Allow several minutes and a few gigabytes of disk space. Later runs reuse the image and workspace.
+The first run builds a local image and creates a persistent home. The base image takes about a minute and under a gigabyte. Later runs reuse the image and workspace.
+
+Adding [optional software](/docs/the-computer) costs more, once: `suped --with browser` bakes in Playwright and headless Chromium and takes another minute or so. Leave it off and the base still reads the web with `curl` and `w3m`.
 
 ## Choose your setup
 

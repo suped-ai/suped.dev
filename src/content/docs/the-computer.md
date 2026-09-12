@@ -19,13 +19,47 @@ cat cli/docker/Dockerfile
 |---|---|
 | Shell | bash, tmux, less, vim, nano |
 | Languages | python3 with pip and venv, node 22 with npm and npx, uv |
-| Source | git, openssh-client, build-essential, pkg-config |
+| Source | git, openssh-client |
 | Network | curl, wget, ca-certificates |
+| Web | w3m, lynx |
 | Data | jq, sqlite3, ripgrep, unzip, zip |
-| Media | ffmpeg |
-| Browser | Playwright with Chromium, installed system-wide |
 
-The `suped` user has passwordless sudo. Run `sudo apt-get update` before installing a system package. Those packages survive stop/start but not container reset.
+That base builds in about a minute. The `suped` user has passwordless sudo. Run `sudo apt-get update` before installing a system package. Those packages survive stop/start but not container reset.
+
+Node is not optional: setup installs the agent clients and several provider CLIs with npm, so it has to exist before any selection runs.
+
+## Optional software
+
+A browser engine, a media toolchain, and a C compiler are large, and most work needs none of them. Choose the ones you want and they are built into your image:
+
+| Feature | What it adds | Cost |
+|---|---|---|
+| `browser` | Playwright driving `chromium-headless-shell`, for automation and JS-heavy pages | ~910 MB |
+| `build` | build-essential and pkg-config, for packages that compile native extensions | ~340 MB |
+| `media` | ffmpeg and its codecs | ~620 MB |
+
+```sh
+suped --with browser              # when the computer is created
+suped --with browser,build        # several at once
+suped rebuild --with media        # change it later
+suped rebuild --without           # back to the base
+suped status                      # shows what is baked in
+```
+
+**Why these are baked in rather than installed later.** They are system packages, and system packages do not survive [`reset`](/docs/persistence). A browser installed into a running container would disappear on the next upgrade with nothing explaining why. Your selection is part of the image tag instead, so `reset` and `rebuild` reproduce the same computer. Changing it rebuilds a layer, which takes under two minutes.
+
+`chromium-headless-shell` is Playwright's headless-only build. It has the same API for automation and is roughly 600 MB smaller than full Chromium. If you need headed mode or Chrome-specific behaviour, install full Chromium yourself with `playwright install chromium`, and re-run that after a reset.
+
+## Reading the web
+
+For research, the base is usually enough. `curl` fetches, and `w3m -dump` renders a page to clean text:
+
+```sh
+curl -sL https://example.com | w3m -T text/html -dump
+w3m -dump https://example.com
+```
+
+That covers documentation, articles, and API references. Reach for `--with browser` when a page needs JavaScript to render, or when you are driving a page rather than reading it.
 
 Suped 0.2.0 offers [17 optional CLIs](/docs/tools) for repositories, hosting, databases, cloud infrastructure, payments, and agent clients. Select the providers you use. They install under `~/.local` and are available on PATH. The agent uses the vendor commands directly.
 
@@ -43,7 +77,7 @@ uv pip install --python .venv/bin/python requests
 
 ## Playwright
 
-Chromium and its system dependencies are already there. In any project, install the `playwright` package at the same version as the global one and it will find the browser through `PLAYWRIGHT_BROWSERS_PATH`, which is set for you.
+With `--with browser`, Chromium and its system dependencies are there. In any project, install the `playwright` package at the same version as the global one and it will find the browser through `PLAYWRIGHT_BROWSERS_PATH`, which is set for you.
 
 ```sh
 playwright --version          # e.g. Version 1.63.0
