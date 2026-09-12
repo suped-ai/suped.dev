@@ -63,7 +63,7 @@ w3m -dump https://example.com
 
 That covers documentation, articles, and API references. Reach for `--with browser` when a page needs JavaScript to render, or when you are driving a page rather than reading it.
 
-Suped 0.2.0 offers [17 optional CLIs](/docs/tools) for repositories, hosting, databases, cloud infrastructure, payments, and agent clients. Select the providers you use. They install under `~/.local` and are available on PATH. The agent uses the vendor commands directly.
+Suped 0.3.0 offers [17 optional CLIs](/docs/tools) for repositories, hosting, databases, cloud infrastructure, payments, and agent clients. Select the providers you use. They install under `~/.local` and are available on PATH. The agent uses the vendor commands directly.
 
 ## User-installed tools
 

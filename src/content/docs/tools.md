@@ -5,7 +5,7 @@ section: start
 order: 2
 ---
 
-Suped **0.2.0** includes the tool catalogue and guided account setup below. Run these commands from your host terminal. See [getting started](/docs/getting-started) for requirements and upgrading an existing workspace.
+Suped **0.3.0** includes the tool catalogue and guided account setup below. Run these commands from your host terminal. See [getting started](/docs/getting-started) for requirements and upgrading an existing workspace.
 
 Suped prepares a workspace around the tools you use. Choose GitHub or GitLab, Cloudflare or Vercel, Supabase or Neon—or combine the services your work needs. Your agent uses their ordinary commands and saved account connections inside the same Linux home.
 
