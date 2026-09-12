@@ -85,7 +85,7 @@ suped secrets save secrets.age     # seal what can travel
 suped secrets restore secrets.age  # on the other machine
 ```
 
-The sealed file is encrypted with [age](https://age-encryption.org) and is safe to commit. **The identity is not.** It lives at `~/.config/suped/authsy.key`, it is the one thing you move between machines yourself, and anything holding it can open every secret inside. Lose it and the sealed files cannot be opened.
+The sealed file is encrypted with [age](https://age-encryption.org) and is safe to commit. **The identity is not.** It lives at `~/.config/suped/credy.key`, it is the one thing you move between machines yourself, and anything holding it can open every secret inside. Lose it and the sealed files cannot be opened.
 
 It is a keypair rather than a passphrase because `age -p` reads from the terminal and fails when there is not one, which is exactly the situation an agent works in.
 
