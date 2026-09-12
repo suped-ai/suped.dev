@@ -91,6 +91,39 @@ It is a keypair rather than a passphrase because `age -p` reads from the termina
 
 Where a provider can hand its credential over, Suped uses the provider's own path rather than copying files — `gh auth token` and `gh auth login --with-token`, for instance, because `gh` keeps its token in the system keyring on machines that have one and in a config file on machines that do not. Providers are added one at a time, each verified against a real login, so `suped secrets` tells you plainly which ones travel and which you will sign into again.
 
+### What the store holds
+
+The store lives at `~/.config/suped/secrets.age`, in the home, so it survives a reset. Entries have a kind:
+
+| Kind | What it is |
+|---|---|
+| `token` | A credential a tool can be signed back in with. |
+| `email` | A mailbox you already own. |
+| `account` | An account at a service: the address it was signed up with, username, password, second factor, recovery codes, and any key issued later. |
+
+```sh
+suped secrets list              # what is there, and what is waiting on you
+suped secrets show resend       # secrets hidden; add --reveal to print them
+suped secrets set resend        # one entry as JSON on stdin
+suped secrets remove resend
+```
+
+An account is a record rather than a single secret because a signup leaves more than one thing behind. Keeping only "the key" loses the password, the second factor, the recovery codes, and which mailbox the confirmation went to — everything you need the day something goes wrong.
+
+Accounts reference an `email` entry rather than an address invented for the occasion. A mailbox you already own is one you can still get into next year.
+
+### When a service will not let an agent sign up
+
+Some will not, and being banned is a worse outcome than being asked. In that case the account is recorded as **pending**, with what it still needs:
+
+```
+  x-com               account   x    — WAITING ON YOU: password, API key from the developer portal
+```
+
+Finish the signup yourself, then replace the entry with the real one. From that point it is an ordinary account that any machine holding the identity can use, and the record keeps whether a person or an agent created it.
+
+Suped does not sign anyone up. Your agent does that with a browser and a shell, the way you would; Suped holds the mailbox to do it with, records what came back, and gives the ones you had to finish somewhere to live.
+
 ## Backup
 
 To copy a home volume byte for byte, including its saved logins, back it up while the workspace is stopped so agents and applications are not changing it. The following commands use a POSIX shell and the default volume/container names:
