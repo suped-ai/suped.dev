@@ -6,27 +6,96 @@ import Install from '../components/Install.astro';
 <Base>
   <section class="hero">
     <div class="inner">
-      <h1>A workspace, suped up for your agent.</h1>
+      <h1>Any agent. Any machine. One workspace.</h1>
       <p>
-        A curated Linux workspace with tools ready to use. Choose your providers,
-        connect your accounts, and give your agent a place to build.
+        Set up your projects, tooling and account connections once. Launch that
+        same environment on any machine, hand it to whichever agent you like,
+        and swap models — or go local — without losing any of it.
       </p>
       <Install />
       <div class="links">
         <a href="/docs/getting-started">getting started</a>
-        <a href="/docs/tools">tools &amp; accounts</a>
+        <a href="/docs/manifesto">the idea</a>
       </div>
     </div>
   </section>
 
   <div class="sections">
+    <section class="section panel notice" aria-labelledby="experimental">
+      <h2 id="experimental"><span class="tag">experimental</span></h2>
+      <div class="body prose">
+        <p class="lead">
+          suped is early, and it is not security-hardened. Treat it as a prototype.
+        </p>
+        <p>
+          Your agent holds real credentials for real accounts. A container is not a
+          security boundary against a capable attacker, and suped does not sandbox
+          the agent from the services you connect to it. An agent that makes a
+          mistake, or is talked into one, can do anything those credentials allow.
+        </p>
+        <p>
+          Connect accounts you could afford to have misused. Prefer scoped tokens
+          and separate accounts over production credentials, and give it the
+          narrowest access that still does the job.
+        </p>
+        <p>
+          Anything that lets outside content reach the agent — email, chat, a
+          webhook — is a prompt-injection surface: text written by a stranger
+          becomes instructions to something holding your keys. Those surfaces are
+          not built yet, and this is the problem to solve before they are.
+        </p>
+        <p class="fineprint">
+          Provided as-is under the MIT licence, with no warranty. Interfaces will
+          change without notice while the project is at 0.x.
+        </p>
+      </div>
+    </section>
+
+    <section class="section panel">
+      <h2>the idea</h2>
+      <div class="body prose">
+        <p class="lead">
+          A headless operating system, run by a single agent of your choosing.
+        </p>
+        <p>
+          During setup you pick the toolset your agent gets and connect the
+          accounts you want it to use. What you end up with is a workspace you
+          can launch from anywhere, carrying the projects, tooling and
+          connections you set up.
+        </p>
+        <p>
+          The environment grows with you. Start a project that needs tooling the
+          workspace doesn't have and your agent installs it — and that addition
+          travels, so your other machines gain it too. What began as a curated
+          setup becomes yours.
+        </p>
+        <p>
+          It stays fast by staying thin. There is no framework to learn and no
+          preamble to read before acting: the operating brief is sixty-eight
+          words, and everything else is an ordinary filesystem the agent reads
+          when it needs to. That is what lets you kill a session at any moment
+          and have a fresh one pick up where it left off.
+        </p>
+        <p>
+          One agent runs the box, but that does not make it single-threaded. Your
+          agent can install a multi-agent manager, or build one, the same way it
+          installs anything else.
+        </p>
+        <p>
+          Because the environment holds the tools, the accounts and the work, it
+          does not matter much which model is driving. Change providers, or run
+          something local, and everything you built is still there.
+        </p>
+      </div>
+    </section>
+
     <section class="section panel">
       <h2>available now</h2>
       <div class="body prose">
         <p>
           Suped 0.2.0 opens a persistent Ubuntu workspace with guided tool setup.
           It needs Docker running and Node 18 or newer. The first run builds
-          the image locally and can take several minutes.
+          the image locally.
         </p>
         <p>
           Choose from 17 optional CLIs, connect your accounts, and add app
@@ -61,8 +130,9 @@ import Install from '../components/Install.astro';
       <h2>what's inside</h2>
       <div class="body prose">
         <p>
-          Ubuntu, bash, Python, Node, Git, uv, and Chromium through Playwright.
-          A normal filesystem, a user with sudo, and tools installed under your home.
+          Ubuntu, bash, Python, Node, Git, and uv. A normal filesystem, a user
+          with sudo, and tools installed under your home. Nothing you have to
+          learn.
         </p>
 <pre><code>/home/suped/
   workspace/    where commands and shells start
@@ -71,7 +141,7 @@ import Install from '../components/Install.astro';
   .config/
   .local/bin/   tools on PATH</code></pre>
         <p>
-          Suped helps prepare the workspace. The agent uses ordinary programs and
+          Suped prepares the workspace. The agent uses ordinary programs and
           files inside it. You supply the agent and the objective.
         </p>
         <p>
@@ -96,5 +166,65 @@ Save the code and run instructions in the workspace.</code></pre>
         </p>
       </div>
     </section>
+
+    <section class="section panel">
+      <h2>where it's going</h2>
+      <div class="body prose">
+        <p class="lead">Not built yet. Written down so you can see the shape of it.</p>
+        <p>
+          <strong>Portability.</strong> A workspace is defined by its tool
+          selection, its ports and mounts, and the repositories in it — all small,
+          portable text. Carry that definition in git and a clone is enough to
+          stand the same environment up somewhere else, built for the machine it
+          lands on rather than copied byte for byte.
+        </p>
+        <p>
+          <strong>Identity that travels.</strong> Tooling and projects move today;
+          account access does not, and reconnecting on every machine is the part
+          that still hurts. Solving it without handing your credentials to anyone,
+          and without requiring a paid service, is the open problem.
+        </p>
+        <p>
+          <strong>More ways to reach it.</strong> Today the surface is a CLI.
+          Email, chat, a local interface, a web one — each is a way to give the
+          agent work and get something reviewable back. Read the note above
+          first: every inbound channel is also an attack surface.
+        </p>
+        <p>
+          <strong>A human layer.</strong> Everything above describes a headless
+          box. What is missing is the part where a person hands over work, sees
+          what came back, and decides what happens next — from whatever device
+          they happen to be holding. It is deliberately the least designed part,
+          and it is what the rest is building toward.
+        </p>
+      </div>
+    </section>
   </div>
 </Base>
+
+<style>
+  .notice {
+    border-color: rgba(255, 176, 120, 0.28);
+  }
+  .notice h2 {
+    display: flex;
+    align-items: center;
+  }
+  .notice .tag {
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #ffc08a;
+    border: 1px solid rgba(255, 176, 120, 0.42);
+    border-radius: 0.35em;
+    padding: 0.3em 0.6em;
+    white-space: nowrap;
+  }
+  .notice .lead {
+    color: var(--fg-strong);
+  }
+  .notice .fineprint {
+    color: var(--dim);
+    font-size: 0.85em;
+  }
+</style>

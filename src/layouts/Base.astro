@@ -10,10 +10,10 @@ interface Props {
 
 const {
   title,
-  description = 'A persistent Linux workspace for your agent. Choose your tools, connect your accounts, and give it a place to build.',
+  description = 'A persistent Linux workspace that keeps your projects, tooling and connections. Launch it on any machine and hand it to any agent.',
 } = Astro.props;
 
-const fullTitle = title ? `${title} · suped` : 'suped · A workspace, suped up for your agent.';
+const fullTitle = title ? `${title} · suped` : 'suped · Any agent. Any machine. One workspace.';
 // build.format is 'file', so the build-time pathname ends in .html; the served URL does not
 const canonical = new URL(Astro.url.pathname.replace(/\.html$/, '').replace(/\/index$/, '/'), Astro.site);
 const ogImage = new URL('/og.png', Astro.site);
