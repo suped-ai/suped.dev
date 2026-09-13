@@ -7,7 +7,7 @@ order: 1
 
 ## Commands
 
-This reference covers Suped **0.4.0**. Install globally with `npm i -g suped@latest` to use `suped` as shown below, or replace that prefix with `npx suped@latest` to run without a global install.
+This reference covers Suped **0.6.0**. Install globally with `npm i -g suped@latest` to use `suped` as shown below, or replace that prefix with `npx suped@latest` to run without a global install.
 
 | Command | What it does |
 |---|---|
@@ -27,8 +27,17 @@ This reference covers Suped **0.4.0**. Install globally with `npm i -g suped@lat
 | `suped sync` | Show what defines this workspace, and name the work that would not move. |
 | `suped sync save <file>` | Write the workspace to a portable file. Use `-` for stdout. |
 | `suped sync restore <file>` | Install that workspace's tools and clone its projects here. |
+| `suped move` | Show everything that would travel to another machine, and what would not. |
+| `suped move save <dir>` | Write the workspace, its unfinished work, and its sealed logins. `--no-work` leaves the unfinished work behind. |
+| `suped move restore <dir>` | Rebuild that workspace here and sign its tools back in. |
+| `suped state` | Show what this machine and the shared definition differ on. Changes nothing. |
+| `suped state init [url]` | Keep the workspace's definition in a git repository. |
+| `suped state sync` | Catch up with the shared definition, record this machine, and push. |
 | `suped secrets` | Show which account access can travel to another machine, and which has to be re-authenticated. |
 | `suped secrets key` | Create this workspace's encryption identity. |
+| `suped secrets key --show` | Print the identity, to move it to another machine. |
+| `suped secrets key --import` | Install an identity from stdin. `--replace` overwrites an existing one. |
+| `suped secrets env` | Print shell exports for the tokens providers read from the environment. |
 | `suped secrets save <file>` | Seal the credentials that can travel. The file is safe to commit. |
 | `suped secrets restore <file>` | Open a sealed file and sign those tools back in. |
 | `suped status` | Show image, baked-in features, home volume, and container state. |
