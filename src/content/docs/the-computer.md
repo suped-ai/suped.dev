@@ -114,14 +114,18 @@ Save this inside a project with the matching Playwright package installed. Avoid
 
 ```
 /home/suped/
-  workspace/    where shells open
-  projects/
-  downloads/
+  workspace/    where shells open              — travels
+  projects/     your repos                     — travels
+  notes/        anything worth keeping         — travels
+  scratch/      stays on this machine
+  downloads/    stays on this machine
   .config/
-  .local/bin/   on PATH, where uv and user-installed tools go
+  .local/bin/   on PATH, where user-installed tools go
 ```
 
-These are suggestions, not rules. Make whatever structure you want. The only thing that matters is that it's under `/home/suped`, because that's what [persists](/docs/persistence).
+"Travels" means [moving the workspace](/docs/moving) carries the git repositories under those three folders, by where they live rather than by copying them. `scratch/` and `downloads/` are the places you can be sure stay on one machine.
+
+These are suggestions, not rules — make whatever structure you want, and anything missing is created when the workspace starts. The only thing that matters is that it's under `/home/suped`, because that's what [persists](/docs/persistence).
 
 ## Scheduled work
 

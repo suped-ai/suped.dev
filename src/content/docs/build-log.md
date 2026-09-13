@@ -8,6 +8,29 @@ order: 3
 What has been added, newest first. Exact changes per release are in the CLI's
 [changelog](https://github.com/suped-ai/suped/blob/main/cli/CHANGELOG.md).
 
+## 0.6.0 · 2026-09-13
+
+**A workspace moves, with the work you were in the middle of.** `suped move save` writes a directory
+holding what the workspace is and what it can sign into; `move restore` rebuilds it on the other
+machine. Unfinished work comes too — files changed but never committed, files never added, deletions,
+commits on no remote — carried through git on each project's own remote, without touching your
+branches or disturbing the repository it came from.
+
+**Several machines stay in step.** `suped state init` puts the workspace's definition in a git
+repository and `state sync` catches each machine up with whatever the others added. Two machines that
+each added a tool have both added a tool, so there is almost never anything to resolve. Ports and
+mounts stay with the machine, because they describe where a workspace runs rather than what it is.
+
+**The encryption key moves in one step.** `suped secrets key --show | ssh other suped secrets key
+--import`. It is the one thing that is never written into a saved workspace, and it used to mean
+finding a file path by hand.
+
+**The home says what travels.** `notes/` and `scratch/` join the layout, and missing folders are
+created when the workspace starts — so a workspace made before a folder existed gains it, which
+previously never happened.
+
+There is no 0.5.0; its work shipped here.
+
 ## 0.4.0 · 2026-09-12
 
 **The workspace can run what it builds.** Python 3.14.7 with `uv` and `uvx`, Go 1.27.1, Deno 2.9.6

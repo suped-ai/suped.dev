@@ -93,13 +93,14 @@ import Install from '../components/Install.astro';
       <h2>available now</h2>
       <div class="body prose">
         <p>
-          Suped 0.3.0 opens a persistent Ubuntu workspace with guided tool setup.
+          Suped 0.6.0 opens a persistent Ubuntu workspace with guided tool setup.
           It needs Docker running and Node 18 or newer. The first run builds
           the image locally.
         </p>
         <p>
-          Choose from 17 optional CLIs, connect your accounts, and add app
-          connections through your agent's MCP client.{' '}
+          Choose from 23 optional CLIs — repository hosts, deployment platforms,
+          databases, Python, Go, Deno, Bun and the Docker client — connect your
+          accounts, and add app connections through your agent's MCP client.{' '}
           <a href="/docs/getting-started">Get started</a> or{' '}
           <a href="/docs/getting-started#upgrade-from-010">upgrade your existing workspace</a>.
         </p>
@@ -130,16 +131,21 @@ import Install from '../components/Install.astro';
       <h2>what's inside</h2>
       <div class="body prose">
         <p>
-          Ubuntu, bash, Python, Node, Git, and uv. A normal filesystem, a user
-          with sudo, and tools installed under your home. Nothing you have to
-          learn.
+          Ubuntu, bash, Python, Node, and Git. A normal filesystem, a user with
+          sudo, and tools installed under your home. Nothing you have to learn.
         </p>
 <pre><code>/home/suped/
   workspace/    where commands and shells start
-  projects/     a place for your repos
-  downloads/
-  .config/
+  projects/     your repos            — travels
+  notes/        anything worth keeping — travels
+  scratch/      stays on this machine
+  downloads/    stays on this machine
   .local/bin/   tools on PATH</code></pre>
+        <p>
+          The folders say what happens when you move. Anything you keep in a git
+          repo under the first three comes with you; scratch and downloads are
+          the places you can be sure stay put.
+        </p>
         <p>
           Suped prepares the workspace. The agent uses ordinary programs and
           files inside it. You supply the agent and the objective.
@@ -168,21 +174,50 @@ Save the code and run instructions in the workspace.</code></pre>
     </section>
 
     <section class="section panel">
+      <h2>take it with you</h2>
+      <div class="body prose">
+        <p class="lead">
+          Move the whole workspace to another machine — including whatever you
+          were in the middle of.
+        </p>
+<pre><code>suped move save ./my-workspace      # on this machine
+suped move restore ./my-workspace   # on the other one</code></pre>
+        <p>
+          That brings your tools, your projects, and your account logins. It also
+          brings the work you had not finished: files you changed but never
+          committed turn up on the other machine exactly as you left them.
+        </p>
+        <p>
+          Nothing is copied wholesale. Tools are installed fresh for the machine
+          they land on, and projects are cloned from wherever they already live,
+          so a workspace built on a laptop works on a server.
+        </p>
+        <p>
+          Using more than one machine regularly? Point them all at the same git
+          repository and each one catches up with whatever the others added.
+        </p>
+<pre><code>suped state init &lt;your-git-url&gt;   # once on each machine
+suped state sync                   # whenever you want to catch up</code></pre>
+        <p>
+          Logins travel encrypted, with nothing in the middle holding them. Today
+          most services still want a quick sign-in when you arrive; GitHub does
+          not.{' '}
+          <a href="/docs/moving">How moving works.</a>
+        </p>
+      </div>
+    </section>
+
+    <section class="section panel">
       <h2>where it's going</h2>
       <div class="body prose">
         <p class="lead">Not built yet. Written down so you can see the shape of it.</p>
         <p>
-          <strong>Portability.</strong> A workspace is defined by its tool
-          selection, its ports and mounts, and the repositories in it — all small,
-          portable text. Carry that definition in git and a clone is enough to
-          stand the same environment up somewhere else, built for the machine it
-          lands on rather than copied byte for byte.
-        </p>
-        <p>
-          <strong>Identity that travels.</strong> Tooling and projects move today;
-          account access does not, and reconnecting on every machine is the part
-          that still hurts. Solving it without handing your credentials to anyone,
-          and without requiring a paid service, is the open problem.
+          <strong>Logins that always travel.</strong> Account access can move
+          between machines now, encrypted and with no service in the middle, but
+          only GitHub reconnects on its own. Every other service still wants a
+          sign-in when you arrive. Closing that gap, one service at a time, is
+          slow work: each one has to be proved against a real account rather than
+          taken from its documentation.
         </p>
         <p>
           <strong>More ways to reach it.</strong> Today the surface is a CLI.
